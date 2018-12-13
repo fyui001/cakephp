@@ -13,7 +13,7 @@ class PhotosController extends AppController{
 
   public function add(){
     $this->loadModel('Photo');
-    if($this->requst->is('post')){
+    if($this->request->is('post')){
       var_dump($_FILES);
     }
   }
