@@ -1,6 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
-App::import('Model', 'Photos');
+App::import('Model', 'Photo');
 class PhotosController extends AppController{
 
   public function beforeFilter(){
@@ -8,33 +8,37 @@ class PhotosController extends AppController{
   }
 
   public function index (){
+    $path = $this->Photo->find('all', array('fields' => 'path'));
+    $path_n = count($path);
+    header("Content-Type: image/JPG");
+    //header("Content-Type: image/png");
+    for($i = 0; $i < $path_n; $i++){
+      $p[] = $path[$i]['Photo']['path'];
+    }
+    $image = new Imagick($p[1]);
+    echo $image;
 
+
+    return $p;
   }
 
   public function add(){
-    $this->loadModel('Photos');
-    debug($_FILES);
 
-    $FilePath = "/Photo/"; /* バリデーション後保存するディレクトリ */
-    $FilePath_c = "/var/www/html/cakephp/app/tmp/CheckPhoto/"; /* 最初に保存するディレクトリのパス */
     $FileName = $_FILES['image']['name']; /* ファイル名を変数へ代入 */
-
-    if(!file_exists($FilePath_c)){
-      mkdir($FilePath_c);  /* ディレクトリが存在しない場合は其れを作成 */
-    }
-
-    $UploadPath_c = "{$FilePath_c}{$FileName}";/* パスとファイル名を結合 */
+    $FilePath = "/var/www/html/cakephp/app/webroot/Photo/"; /* バリデーション後保存するディレクトリのパス */
+    $FilePath_c = "/var/www/html/cakephp/app/tmp/CheckPhoto/"; /* 最初に保存するディレクトリのパス */
+    $UploadPath = "{$FilePath}{$FileName}"; /* パスとファイル名結合 */
+    $UploadPath_c = "{$FilePath_c}{$FileName}";/* パスとファイル名を結合(チェック用) */
 
     /* tmpディレクトリにアップロード */
     if(move_uploaded_file($_FILES['image']['tmp_name'], $UploadPath_c)){
-      if($this->Photos->save(array('path' => $UploadPath_c))){
-        echo "success\n";
 
+      /*画像を保存しているディレクトリのパスをデータベースへ保存 */
+      if($this->Photo->save(array('path' => $UploadPath))){
+        echo "success\n";
         try {
-          $name = "{$FilePath}{$FileName}";
-          $image = new Imagick("/var/www/html/cakephp/app/tmp/CheckPhoto/IMG_0019.JPG");
-          if(ture){
-            $image->writeImage("/var/www/html/cakephp/app/webroot/Photo/IMG_0019.JPG");
+          if($image = new Imagick($UploadPath_c)){
+            $image->writeImage($UploadPath); /* Imagickでアップロードされたファイル画像かどうか確認 */
           }else{
             throw new Exception();
           }
@@ -42,13 +46,12 @@ class PhotosController extends AppController{
           echo "にゃーん";
         }
 
-
       }else{
         echo 'あっぷろーどに失敗';
-    }
+      }
 
+    }
   }
-}
 
   public function upload(){
 
