@@ -13,35 +13,27 @@ class PhotosController extends AppController{
 
   public function add(){
     $this->loadModel('Photos');
-    debug($_FILES);
 
-    $FilePath = "/Photo/"; /* バリデーション後保存するディレクトリ */
-    $FilePath_c = "/var/www/html/cakephp/app/tmp/CheckPhoto/"; /* 最初に保存するディレクトリのパス */
     $FileName = $_FILES['image']['name']; /* ファイル名を変数へ代入 */
-
-    if(!file_exists($FilePath_c)){
-      mkdir($FilePath_c);  /* ディレクトリが存在しない場合は其れを作成 */
-    }
-
+    $FilePath = "/var/www/html/cakephp/app/webroot/Photo/"; /* バリデーション後保存するディレクトリ */
+    $UploadPath = "{$FilePath}{$FileName}"; /* パスとファイル名を結合 */
+    $FilePath_c = "/var/www/html/cakephp/app/tmp/CheckPhoto/"; /* 最初に保存するディレクトリのパス (tmpディレクトリなど)*/
     $UploadPath_c = "{$FilePath_c}{$FileName}";/* パスとファイル名を結合 */
 
-    /* tmpディレクトリにアップロード */
+    /* 最初に保存するディレクトリにアップロード */
     if(move_uploaded_file($_FILES['image']['tmp_name'], $UploadPath_c)){
-      if($this->Photos->save(array('path' => $UploadPath_c))){
+      if($this->Photos->save(array('path' => $UploadPath))){
         echo "success\n";
-
+        /* Imagickでバリデーション */
         try {
-          $name = "{$FilePath}{$FileName}";
-          $image = new Imagick("/var/www/html/cakephp/app/tmp/CheckPhoto/IMG_0019.JPG");
-          if(ture){
-            $image->writeImage("/var/www/html/cakephp/app/webroot/Photo/IMG_0019.JPG");
+          if($image = new Imagick($UploadPath_c)){
+            $image->writeImage($UploadPath);
           }else{
             throw new Exception();
           }
         }catch(Exception $e) {
-          echo "にゃーん";
+          echo "これは画像ではありません";
         }
-
 
       }else{
         echo 'あっぷろーどに失敗';
