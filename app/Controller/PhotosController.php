@@ -1,6 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
-App::import('Model', 'Photos');
+App::import('Model', 'Photo');
 class PhotosController extends AppController{
 
   public function beforeFilter(){
@@ -8,26 +8,35 @@ class PhotosController extends AppController{
   }
 
   public function index (){
+    $path = $this->Photo->find('all', array('fields' => 'path'));
+    $path_n = count($path);
+    //header("Content-Type: image/JPG");
+    for($i = 0; $i < $path_n; $i++){
+      $p[] = $path[$i]['Photo']['path'];
+    }
+    $this->set('photo',$p);
 
+    return $p;
   }
 
   public function add(){
     $this->loadModel('Photos');
 
     $FileName = $_FILES['image']['name']; /* ファイル名を変数へ代入 */
-    $FilePath = "/var/www/html/cakephp/app/webroot/Photo/"; /* バリデーション後保存するディレクトリ */
-    $UploadPath = "{$FilePath}{$FileName}"; /* パスとファイル名を結合 */
-    $FilePath_c = "/var/www/html/cakephp/app/tmp/CheckPhoto/"; /* 最初に保存するディレクトリのパス (tmpディレクトリなど)*/
-    $UploadPath_c = "{$FilePath_c}{$FileName}";/* パスとファイル名を結合 */
+    $UploadPath = "/var/www/html/cakephp/app/webroot/Photo/{$FileName}"; /* パスとファイル名を結合 */
+    $ViwePath = "/Photo/{$FileName}"; /* データベースに保存するパス */
+    $UploadPath_c = "/var/www/html/cakephp/app/tmp/CheckPhoto/{$FileName}"; /* 最初に保存するディレクトリのパス (tmpディレクトリなど)*/
 
     /* 最初に保存するディレクトリにアップロード */
     if(move_uploaded_file($_FILES['image']['tmp_name'], $UploadPath_c)){
-      if($this->Photos->save(array('path' => $UploadPath))){
+
+      /*画像を保存しているディレクトリのパスをデータベースへ保存 */
+      if($this->Photo->save(array('path' => $ViwePath))){
         echo "success\n";
-        /* Imagickでバリデーション */
         try {
           if($image = new Imagick($UploadPath_c)){
-            $image->writeImage($UploadPath);
+            $image->writeImage($UploadPath); /* Imagickでアップロードされたファイル画像かどうか確認 */
+            echo 'にゃーん';
           }else{
             throw new Exception();
           }
@@ -37,10 +46,10 @@ class PhotosController extends AppController{
 
       }else{
         echo 'あっぷろーどに失敗';
-    }
+      }
 
+    }
   }
-}
 
   public function upload(){
 
