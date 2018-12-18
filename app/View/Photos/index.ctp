@@ -1,7 +1,6 @@
 <?php
-  ?>
+$photo_n = count($photo);
+for ($i=0; $i < $photo_n; $i++) {
+ echo "<img src='{$photo[$i]}'>";
 
-<form class="upload" action="/photos/add" method="post" enctype="multipart/form-data">
-  <input type="file" value="">
-  <input type="submit" value="アップロード">
-</form>
+}
