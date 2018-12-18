@@ -10,28 +10,22 @@ class PhotosController extends AppController{
   public function index (){
     $path = $this->Photo->find('all', array('fields' => 'path'));
     $path_n = count($path);
-<<<<<<< HEAD
-    //header("Content-Type: image/JPG");
     for($i = 0; $i < $path_n; $i++){
       $p[] = $path[$i]['Photo']['path'];
     }
     $this->set('photo',$p);
-=======
     header("Content-Type: image/JPG");
-    //header("Content-Type: image/png");
     for($i = 0; $i < $path_n; $i++){
       $p[] = $path[$i]['Photo']['path'];
     }
     $image = new Imagick($p[1]);
     echo $image;
 
->>>>>>> 2456c1bc69400eb6206c25cdc7bb7b41cca628a8
 
     return $p;
   }
 
   public function add(){
-<<<<<<< HEAD
     $this->loadModel('Photos');
 
     $FileName = $_FILES['image']['name']; /* ファイル名を変数へ代入 */
@@ -44,7 +38,6 @@ class PhotosController extends AppController{
 
       /*画像を保存しているディレクトリのパスをデータベースへ保存 */
       if($this->Photo->save(array('path' => $ViwePath))){
-=======
 
     $FileName = $_FILES['image']['name']; /* ファイル名を変数へ代入 */
     $FilePath = "/var/www/html/cakephp/app/webroot/Photo/"; /* バリデーション後保存するディレクトリのパス */
@@ -57,15 +50,10 @@ class PhotosController extends AppController{
 
       /*画像を保存しているディレクトリのパスをデータベースへ保存 */
       if($this->Photo->save(array('path' => $UploadPath))){
->>>>>>> 2456c1bc69400eb6206c25cdc7bb7b41cca628a8
         echo "success\n";
         try {
           if($image = new Imagick($UploadPath_c)){
             $image->writeImage($UploadPath); /* Imagickでアップロードされたファイル画像かどうか確認 */
-<<<<<<< HEAD
-            echo 'にゃーん';
-=======
->>>>>>> 2456c1bc69400eb6206c25cdc7bb7b41cca628a8
           }else{
             throw new Exception();
           }
