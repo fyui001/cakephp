@@ -9,9 +9,9 @@ class TestmailsController extends AppController{
 
 
     $address = $mail['MailSent']['email'];
-    //findの検索条件
+    /* findの検索条件 */
     $del_check = array('email' => $address, 'del_flg' => '0');
-    //検索
+    /* 検索 */
     $search = $this->MailSent->find('first', array('conditions' => $del_check));
     if(!empty($search)){
       $del_id = $search['MailSent']['id'];
@@ -29,12 +29,12 @@ class TestmailsController extends AppController{
         throw new Excption();
       }
 
-      //トークンを変数に代入
+      /* トークンを変数に代入 */
       foreach($db_token as $t){
         $token = $t['token'];
         $token_id = $t['id'];
       }
-      //トークンをハッシュ化
+      /*トークンをハッシュ化  */
       $token_hash = $this->MailSent->token_hash($token2);
 
       $data = $mail;
