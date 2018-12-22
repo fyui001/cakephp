@@ -46,32 +46,31 @@
         data: {PostNum:PostNum}
       })
       .done(function(data){
-     if(data.Status === false){
-       alert(data.Message);
-     }else if(data.Status === true){
-       if(data.address.length === 1){
-         $('#list').remove(0);
-         $('#address').replaceWith("<input id='address'>");
-         $('#address').val(data.address[0]['prefecture'] + data.address[0]['city'] + data.address[0]['town']);
-     }else{
-       var count = data.address.length;
-       $("#address").replaceWith("<select id='address' size='9'></select>");
-       $('#address').val(0);
-       $.each(data.address, function(key, value){
-         $('#address').append("<option hidden>選択してください。</option>" , "<option>"+value['prefecture']+value['city']+value['town']+"</option>");
-         $('#address').change(function(){
-           var add = $(this).val();
-           $('#address').replaceWith("<input id='address'>");
-           $('#address').val(add);
-         });
-       });
-     }
-  }
-}).fail(function(XMLHttpRequest, textStatus, errorThrown){
-     console.log(textStatus);
-     alert('んなぁ。。。残酷だなぁ');
-   });
- })
+        if(data.Status === false){
+          alert(data.Message);
+        }else if(data.Status === true){
+          if(data.address.length === 1){
+            $('#address').val("");
+            $('#address').val(data.address[0]['prefecture'] +data.address[0]['city'] + data.address[0]['town']);
+          }else{
+            console.log(data.addres);
+            $("#address").replaceWith("<select id='address' size='9'></select>");
+            $('#address').val(0);
+            $.each(data.address, function(key, value){
+              $('#address').append("<option hidden>選択してください。</option>" , "<option>"+value['prefecture']+value['city']+value['town']+"</option>");
+              $('#address').change(function(){
+                var add = $(this).val();
+                $('#address').replaceWith("<input id='address'>");
+                $('#address').val(add);
+              });
+            });
+          }
+        }
+      }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+        console.log(textStatus)
+        alert('error');
+      });
+    })
   </script>
 
 

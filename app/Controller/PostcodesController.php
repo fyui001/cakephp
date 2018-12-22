@@ -7,38 +7,49 @@ class PostcodesController extends AppController{
   public function add(){
     $PostNum = $this->request->data['PostNum']; /* POSTされたデータを変数に格納 */
     $status = true; /* バリデーションのStatus、tureを初期セット */
-    $Message = ''; /* エラーメッセージを入れる変数 */
-    //$this->autoRender = false;
-    if($PostNum == ''){
-        $Message = '郵便番号を入力してください';
+    $message = ''; /* エラーメッセージを入れる変数 */
+    $PostNum = str_replace(array('-', 'ー'), '', $PostNum); /* ハイフンが入っていればそれを除く */
+    ///$this->autoRender = false;
+    try {
+
+      /* データの空チェックとバリデーション */
+      if($PostNum == ''){
+        $message = "郵便番号を入力してください";
         $status = false;
-        $success = array('Status' => $status, 'Message' => $Message);
-    }else if(!preg_match('/^[0~9]{3}-[0~9]{4}$/') || !preg_match('/^[0~9]{7}$/')){
-      $Message = 'この郵便番号は有効ではありません';
-      $status = false;
-      $success = array('Status' => $status, 'Message' => $Message);
-    }else if(preg_match('/^[0~9]{3}-[0~9]{4}$/')){
-      $PostNum = str_replace(array('-', 'ー'), '', $PostNum);
-    }
-
-    $data = $this->Postcode->finde('all', array('conditions' => $PostNum));
-    if($data == NULL){
-      $Message = 'この郵便番号は存在しません';
-      $status = false;
-      $success = array('Status' => $status, 'Message' => $Message);
-    }else{
-      $data_arr = array();
-      $address = array();
-      foreach($data as $value){
-        $data_arr['Prefecture'] = $value['Postcode']['Prefecture'];
-        $data_arr['City'] = $value['Postcode']['City'];
-        $data_arr['Town'] = $value['Postcode']['Town'];
-        $address[] = $data_arr;
+        $success = array('Status' => $status, 'Message' => $message);
+        throw new Exception();
+      }else if(!preg_match("/^[0-9]{7}$/", $PostNum)){
+        $message = "この郵便番号は有効ではありません";
+        $status = false;
+        $success = array('Status' => $status, 'Message' => $message);
+        throw new Exception();
       }
-      $success = array('Status' => $status, 'address' => $address);
-      echo json_encode($success);
-    }
 
+      $data = $this->Postcode->find('all', array('conditions' => array('PostNum' => $PostNum)));  /* 住所を検索 */
+
+      /* 検索結果が空ならfalse */
+      if(empty($data)){
+        $message = "この郵便番号は存在しません";
+        $status = false;
+        $success = array('Status' => $status, 'Message' => $message);
+        throw new Exception();
+      }else{
+        $data_arr = array();
+        $address = array();
+        foreach($data as $value){
+          $data_arr['prefecture'] = $value['Postcode']['Prefecture'];
+          $data_arr['city'] = $value['Postcode']['City'];
+          $data_arr['town'] = $value['Postcode']['Town'];
+          $address[] = $data_arr;
+        }
+        $success = array('Status' => $status, 'address' => $address);
+      }
+
+    }catch (Exception $e) {
+      echo json_encode($success);
+      exit;
+    }
+    echo json_encode($success);
 
 
   }
