@@ -9,9 +9,9 @@ class ScansController extends AppController{
   public function add(){
 
 
-    $apiKey = ''; /* Google Cloud API のAPIキーを入れる */
+    $apiKey = 'iAIzaSyCxnD_g3X1fpUwQCH0rsEFDOb3d0vF9774'; /* Google Cloud API のAPIキーを入れる */
     $FileName = $_FILES['image']['name']; /* ファイル名を変数に格納 */
-    $CheckPath = ""; /* アップロードされた画像を保存するディレクトリパス */
+    $CheckPath = "/var/www/html/cakephp/app/tmp/ScanCheck/{$FileName}"; /* アップロードされた画像を保存するディレクトリパス */
     $Status = true; /* バリデーションのステータスを入れる変数、 初期値にtrueをセット */
     $Message = ''; /* エラーメッセージを入れる変数 */
 
