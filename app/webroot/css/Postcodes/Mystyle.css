@@ -1,0 +1,53 @@
+a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+html, body{
+  height: 100%;
+  font-family: "Noto Sans JP", "游ゴシック Medium", "游ゴシック体", "Yu Gothic Medium", YuGothic, "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+.title{
+  font-size:50px;
+  color:#ff3088;
+  text-align:center;
+  padding-top:30px;
+}
+#form{
+  width:60%;
+  height: auto;
+  padding:40px;
+  margin:40px auto;
+  background-color:#f2f2f2f2;
+}
+#form-item{
+  color:#000;
+  padding:none;
+  padding-top:20px;
+  padding-left:300px;
+  text-align: left;
+}
+#PostNum{
+  height:23px;
+  width: 200px;
+  font-size: 20px;
+}
+#form-item p{
+  font-size:30px;
+  padding:10px 0;
+  padding-bottom:18px;
+}
+#form-item #sub{
+  color:#ff0000;
+  font-size:20px;
+}
+#form-PostNum{
+  padding:15px 0;
+}
+
+#form-address{
+  padding:15px 0;
+}
+#address{
+  width:350px;
+  font-size:18px;
+  }
+#but1{
+  font-size: 15px;
+}
