@@ -16,12 +16,12 @@ class PostcodesController extends AppController{
       if($PostNum == ''){
         $message = "郵便番号を入力してください";
         $status = false;
-        $success = array('Status' => $status, 'Message' => $message);
+        $result = array('Status' => $status, 'Message' => $message);
         throw new Exception();
       }else if(!preg_match("/^[0-9]{7}$/", $PostNum)){
         $message = "この郵便番号は有効ではありません";
         $status = false;
-        $success = array('Status' => $status, 'Message' => $message);
+        $result = array('Status' => $status, 'Message' => $message);
         throw new Exception();
       }
 
@@ -31,7 +31,7 @@ class PostcodesController extends AppController{
       if(empty($data)){
         $message = "この郵便番号は存在しません";
         $status = false;
-        $success = array('Status' => $status, 'Message' => $message);
+        $result = array('Status' => $status, 'Message' => $message);
         throw new Exception();
       }else{
         $data_arr = array();
@@ -42,14 +42,14 @@ class PostcodesController extends AppController{
           $data_arr['town'] = $value['Postcode']['Town'];
           $address[] = $data_arr;
         }
-        $success = array('Status' => $status, 'address' => $address);
+        $result = array('Status' => $status, 'address' => $address);
       }
 
     }catch (Exception $e) {
-      echo json_encode($success);
+      echo json_encode($result);
       exit;
     }
-    echo json_encode($success);
+    echo json_encode($result);
 
 
   }
