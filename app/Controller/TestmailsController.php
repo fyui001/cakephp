@@ -44,7 +44,7 @@ class TestmailsController extends AppController{
 
 
 
-      if($this->MailSent->save($data) && $this->Token->save(array('id' => $token_id, 'del_flg' => '1  '))){
+      if($this->MailSent->save($data) && $this->Token->save(array('id' => $token_id, 'del_flg' => '1'))){
         if(!empty($search)){
           if(!$this->MailSent->save(array('id' => $del_id, 'del_flg' => '1'))){
             throw new Excption();
