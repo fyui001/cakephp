@@ -25,8 +25,11 @@
 						<a id = "item1" href="/postcodes">郵便番号検索</a>
 					</li>
 					<li>
-						<a id = "item2" href="">うどん</a>
+						<a id = "item2" href="/scans">画像文字起こし</a>
 					</li>
+                    <li>
+                        <a id = "item3" href="">うどん</a>
+                    </li>
 				</ul>
 			</div>
 		</div>

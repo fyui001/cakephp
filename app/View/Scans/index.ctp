@@ -16,7 +16,7 @@
       <input id = "image" type="file" name="image">
       <input id = "but" type="button" value="アップロード">
     </form>
-    <textarea id = "text" name="text" rows="8" cols="80"></textarea>
+    <textarea id = "text" name="text" rows="20" cols="80"></textarea>
   </main>
   <footer></footer>
   <script>
