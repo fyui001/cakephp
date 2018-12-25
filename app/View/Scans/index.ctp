@@ -20,11 +20,6 @@
   </main>
   <footer></footer>
   <script>
-  /*
-  inputにファイルが選択された時にアップロードする。
-  アップロードをクリックした時に動作させるためにはchangeをclickにする。
-  $(document).onはあとから追加した要素にも対応させるため。
-  */
 
   $('#but').click(function(event){
     event.preventDefault();
@@ -37,14 +32,15 @@
       cache : false,
       contentType : false,
       processData : false,
-      datatype :'json',
+      dataType :'json',
     }).done(function(data){
-      $('#text').val(data);
+      $('#text').val(data.Text);
       if(data.Status === false){
+        //alert(data.Message);
         alert(data.Message);
       }else if(data.Status === true){
         $('#text').val("");
-        alert(data.Text);
+        $('#text').val(data.Text);
       }
     }).fail(function(XMLHttpRequest, textStatus, errorThrown){
       console.log(textStatus);
