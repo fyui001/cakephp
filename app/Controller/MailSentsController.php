@@ -17,7 +17,6 @@ class MailSentsController extends AppController{
 
 
   public function add(){
-    $this->loadModel('Members');
     $this->loadModel('Tokens');
     if($this->request->is('post')){
       $address = $this->request->data['MailSent']['email'];

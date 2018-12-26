@@ -54,7 +54,7 @@ class TestmailsController extends AppController{
         $Mail = "http://site.site/members/signup?token={$token}{$token2}";
         $sent = $mail['MailSent']['email'];
         $email = new CakeEmail('singup');
-        $email->from('y.test.funteam@gmail.com');
+        $email->from('13yun.test@gmail.com');
         $email->to($sent);
         $email->subject('メールアドレスの確認');
         $email->emailFormat('text');
