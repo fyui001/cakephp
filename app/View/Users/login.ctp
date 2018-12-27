@@ -1,10 +1,10 @@
 <?php
  echo $this->Flash->render('auth');
- echo $this->Form->create('Member');
+ echo $this->Form->create('User');
  ?>
  <fieldset>
    <legend>
-     <?php echo __('Plesse enter your mailaddress and passeord'); ?>
+     <?php echo __('Please enter your mailaddress and password'); ?>
    </legend>
    <?php
     echo $this->Form->input('mailaddress', array(

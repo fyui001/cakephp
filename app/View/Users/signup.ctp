@@ -1,5 +1,5 @@
 <?php
-echo $this->Form->create('Member');
+echo $this->Form->create('User');
 echo $this->Form->input('mailaddress', array(
   'id' => 'mailaddress',
   'autocomplete' => 'off',

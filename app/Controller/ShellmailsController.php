@@ -1,10 +1,10 @@
 <?php
 App::uses('CakeEmail', 'Network/Email');
 App::uses('AppController', 'Controller');
-class TestmailsController extends AppController{
+class ShellmailsController extends AppController{
   public function index($mail){
     $this->loadModel('MailSent');
-    $this->loadModel('Member');
+    $this->loadModel('User');
     $this->loadModel('Token');
 
 
@@ -20,7 +20,7 @@ class TestmailsController extends AppController{
     $dataSource = $this->MailSent->getDataSource();
     try{
       $dataSource->begin();
-      //トークン取得
+      /* トークン取得 */
       if($this->MailSent->save($mail)){
         $id = $this->MailSent->getInsertID();
         $db_token = $this->Token->find('first', array('conditions' => array('id' => $id)));
@@ -51,10 +51,10 @@ class TestmailsController extends AppController{
           }
         }
         $dataSource->commit();
-        $Mail = "http://site.site/members/signup?token={$token}{$token2}";
+        $Mail = "http://site.site/users/signup?token={$token}{$token2}";
         $sent = $mail['MailSent']['email'];
         $email = new CakeEmail('singup');
-        $email->from('y.test.funteam@gmail.com');
+        $email->from(MailAddress);
         $email->to($sent);
         $email->subject('メールアドレスの確認');
         $email->emailFormat('text');
