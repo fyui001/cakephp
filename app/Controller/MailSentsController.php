@@ -18,6 +18,7 @@ class MailSentsController extends AppController{
 
   public function add(){
     $this->loadModel('Tokens');
+    $this->loadModel('Users');
     if($this->request->is('post')){
       $address = $this->request->data['MailSent']['email'];
       if(empty($address)){
@@ -26,7 +27,7 @@ class MailSentsController extends AppController{
       }
 
       //すでに登録されているメールアドレスかを確認
-      $success = $this->Members->find('first', array('conditions' => array('mailaddress' => $address)));
+      $success = $this->Users->find('first', array('conditions' => array('mailaddress' => $address)));
       if(!empty($success)){
         echo 'このメールアドレスはすでに登録されています。';
         return false;
