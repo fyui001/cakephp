@@ -1,6 +1,12 @@
 <?php
 App::uses('AppController', 'Controller');
 class ScansController extends AppController{
+  public function beforeFilter() {
+      parent::beforeFilter();
+      $this->Auth->allow('index');
+      $this->response->disableCache();
+  }
+
 
     public function index(){
 
