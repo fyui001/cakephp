@@ -8,7 +8,7 @@ class UsersController extends AppController{
     public function beforeFilter() {
         parent::beforeFilter();
         // ユーザー自身による登録とログアウトを許可する
-        $this->Auth->allow('signup', 'logout', 'again');
+        $this->Auth->allow('signup', 'login', 'logout', 'again', 'aftersignup', 'afterlogin');
         $this->response->disableCache();
     }
 
@@ -151,7 +151,6 @@ class UsersController extends AppController{
             $status = false;
             $usrname = $_COOKIE["usrname"];
             $usrdata = $this->User->find("first", array("conditions" => array("mailtoken" => $usrname)));
-            //$usrname = $_COOKIE["usrname"];
             $logintoken = $_COOKIE["logintoken"];
             $logintoken_hash = $usrdata["User"]["logintoken"];
             $status = $this->User->hash_check($logintoken, $logintoken_hash);
@@ -166,13 +165,13 @@ class UsersController extends AppController{
                 $cookietime = time()+60*60*24;
                 setcookie("usrname", $usrname, $cookietime, "/");
                 setcookie("logintoken", $logintoken, $cookietime, "/");
-                $this->redirect("/members/index/");
+                $this->redirect("/users/index/");
             }else{
                 $cookietime = time()-60*60*24;
                 setcookie("logintoken", "", $cookietime, "/");
                 setcookie("loginName", "", $cookietime, "/");
                 $this->redirect($this->Auth->logout());
-                $this->redirect("/members/login");
+                $this->redirect("/users/login");
             }
         }
 
