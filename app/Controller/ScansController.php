@@ -1,21 +1,25 @@
 <?php
 App::uses('AppController', 'Controller');
 class ScansController extends AppController{
+  public function beforeFilter() {
+    parent::beforeFilter();
+    $this->Auth->allow('index', 'add');
+    $this->response->disableCache();
+  }
+
 
   public function index(){
 
   }
 
+
   public function add(){
 
-
-    $apiKey = 'iAIzaSyCxnD_g3X1fpUwQCH0rsEFDOb3d0vF9774'; /* Google Cloud API のAPIキーを入れる */
+    $apiKey = APIKEY; /* Google Cloud API のAPIキーを入れる */
     $FileName = $_FILES['image']['name']; /* ファイル名を変数に格納 */
-    $CheckPath = "/var/www/html/cakephp/app/tmp/ScanCheck/{$FileName}"; /* アップロードされた画像を保存するディレクトリパス */
+    $CheckPath = ScanPath."{$FileName}"; /* アップロードされた画像を保存するディレクトリパス */
     $Status = true; /* バリデーションのステータスを入れる変数、 初期値にtrueをセット */
     $Message = ''; /* エラーメッセージを入れる変数 */
-
-
     /* アップロードされたファイルをブラウザから見えないディレクトリに保存する */
     if(move_uploaded_file($_FILES['image']['tmp_name'], $CheckPath)){
       try{
@@ -44,9 +48,17 @@ class ScansController extends AppController{
         $data = json_decode($res, true); /* 取得データの配列化 */
         curl_close($curl); /* curlクローズ */
 
-        $Text = $data["responses"][0]["fullTextAnnotation"]["text"]; /* 取得した文字列の配列を変数に入れる */
-        $result = array('Status' => $Status, 'Text' => $Text);
-        echo json_encode($result);
+        if(!empty($data["responses"][0])){
+          $Text = $data["responses"][0]["fullTextAnnotation"]["text"]; /* 取得した文字列の配列を変数に入れる */
+          $result = array('Status' => $Status, 'Text' => $Text); /* バリデーションのステータスと */
+          echo json_encode($result);
+          exit;
+        }else if(empty($data["responses"][0])){
+          $Status = false;
+          $Message = "文字の読み込みに失敗";
+          $result = array("Status" => $Status, "Message" => $Message);
+          throw new Exception;
+        }
 
       }else{
         $Status = false;
@@ -56,6 +68,7 @@ class ScansController extends AppController{
       }
     }catch(Exception $e) {
       echo json_encode($result);
+      exit;
     }
 
   }else{
@@ -63,10 +76,9 @@ class ScansController extends AppController{
     $Message = 'アップロードに失敗';
     $result = array('Status' => $Status, 'Message' => $Message);
     echo json_encode($result);
+    exit;
   }
 
-  exit;
-
-
 }
+
 }
