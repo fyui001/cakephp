@@ -19,3 +19,4 @@
     ?>
  </fieldset>
  <?php echo $this->Form->end('login'); ?>
+ <a href="/mail_sents/add">登録はこちら</a>

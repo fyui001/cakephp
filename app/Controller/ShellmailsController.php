@@ -51,7 +51,7 @@ class ShellmailsController extends AppController{
           }
         }
         $dataSource->commit();
-        $Mail = "http://site.site/users/signup?token={$token}{$token2}";
+        $Mail = SiteURL"/users/signup?token={$token}{$token2}";
         $sent = $mail['MailSent']['email'];
         $email = new CakeEmail('singup');
         $email->from(MailAddress);

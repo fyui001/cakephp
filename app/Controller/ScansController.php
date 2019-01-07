@@ -3,7 +3,7 @@ App::uses('AppController', 'Controller');
 class ScansController extends AppController{
   public function beforeFilter() {
     parent::beforeFilter();
-    $this->Auth->allow('index');
+    $this->Auth->allow('index', 'add');
     $this->response->disableCache();
   }
 
@@ -11,7 +11,7 @@ class ScansController extends AppController{
   public function index(){
 
   }
-  
+
 
   public function add(){
 
