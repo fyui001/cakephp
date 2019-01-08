@@ -1,6 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
-App::import('Model', 'MailSents');
+App::import('Model', 'MailSent');
 class UsersController extends AppController{
 
 
@@ -34,8 +34,8 @@ class UsersController extends AppController{
 
     /* サインアップ */
     public function signup(){
-        $this->loadModel('MailSents');
-        $this->loadModel('Tokens');
+        $this->loadModel('MailSent');
+        $this->loadModel('Mailtoken');
 
         /* -- メールアドレスとURLのバリデーション処理 --*/
         $token = $this->request->query['token'];
@@ -48,21 +48,21 @@ class UsersController extends AppController{
         $token2 = substr($token, 20, 20);
 
         /* 整合性確認 */
-        $info = $this->MailSents->find('first', array('conditions' => array('key1' => $token1)));
+        $info = $this->MailSent->find('first', array('conditions' => array('key1' => $token1)));
         if(empty($info)){
             $this->redirect(array('action' => 'again'));
         }
 
         /* トークン２の整合性確認 */
-        $token2_hash = $info['MailSents']['key2'];
+        $token2_hash = $info['MailSent']['key2'];
         $token_check = $this->User->hash_check($token2, $token2_hash);
 
         /* トークンの有効性確認 */
         if($token_check == true){
-            $check = $this->MailSents->find('first', array(
+            $check = $this->MailSent->find('first', array(
                 'conditions' => array('key1' => $token1, 'del_flg' => '0')
             ));
-            $check2 = $this->MailSents->find('all', array(
+            $check2 = $this->MailSent->find('all', array(
                 'conditions' => array('key1' => $token1, 'del_flg' => '1')
             ));
 
@@ -88,7 +88,7 @@ class UsersController extends AppController{
             $data = $this->request->data;
             $address = $data['User']['mailaddress'];
             $passwd = $data['User']['password'];
-            $MailS = $check['MailSents']['email'];
+            $MailS = $check['MailSent']['email'];
 
             /* メールアドレスのバリデーション */
             if($address == NULL || $address == ''){
@@ -109,12 +109,12 @@ class UsersController extends AppController{
 
             if($Status == true){
                 $del_flg = '1';
-                $id = $check['MailSents']['id'];
+                $id = $check['MailSent']['id'];
                 $dataSource = $this->User->getDataSource();
                 try{
                     $transactionBegun = false;
                     $transactionBegun = $dataSource->begin();
-                    if($this->User->save($data) && $this->MailSents->save(array('id' => $id, 'del_flg' => $del_flg))){
+                    if($this->User->save($data) && $this->MailSent->save(array('id' => $id, 'del_flg' => $del_flg))){
                         if($transactionBegun){
                             $dbCommit = $dataSource->commit() !== false;
                         }
@@ -143,14 +143,14 @@ class UsersController extends AppController{
 
     /* ログイン */
     public function login(){
-        $this->loadModel('Mailtoken');
+        $this->loadModel('Usertoken');
         $status = true;
 
         /* cookieの存在確認とバリデーション処理 */
         if(isset($_COOKIE['logintoken']) && isset($_COOKIE["usrname"])){
             $status = false;
             $usrname = $_COOKIE["usrname"];
-            $usrdata = $this->User->find("first", array("conditions" => array("mailtoken" => $usrname)));
+            $usrdata = $this->User->find("first", array("conditions" => array("usertoken" => $usrname)));
             $logintoken = $_COOKIE["logintoken"];
             $logintoken_hash = $usrdata["User"]["logintoken"];
             $status = $this->User->hash_check($logintoken, $logintoken_hash);
@@ -182,11 +182,11 @@ class UsersController extends AppController{
                 $usrdata = $this->request->data["User"]["mailaddress"];
                 $usr = $this->User->find("first", array("conditions" => array("mailaddress" => $usrdata)));
                 $id = $usr["User"]["id"];
-                $usrname_token = $this->Mailtoken->find("first", array("conditions" => array("id" => $id)));
-                $usrname = $usrname_token["Mailtoken"]["token"];
+                $usrname_token = $this->Usertoken->find("first", array("conditions" => array("id" => $id)));
+                $usrname = $usrname_token["Usertoken"]["token"];
                 $logintoken = $this->genRandStr(64);
                 $HashToken = $this->User->Hash($logintoken);
-                $this->User->save(array("id" => $id, "mailtoken" => $usrname, "logintoken" => $HashToken));
+                $this->User->save(array("id" => $id, "usertoken" => $usrname, "logintoken" => $HashToken));
                 $check = $this->User->hash_check($logintoken, $HashToken);
                 $cookietime = time()+60*60*24;
                 setcookie("usrname", $usrname, $cookietime, "/");
