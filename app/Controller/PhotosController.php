@@ -10,7 +10,7 @@ class PhotosController extends AppController{
     }
 
     public function index (){
-        $path = $this->Photo->find('all', array('fields' => 'path'));
+        $path = $this->Photo->find('all', array('fields' => 'path', 'conditions' => array('del_flg' => '0')));
         $path_n = count($path);
         for($i = 0; $i < $path_n; $i++){
             $p[$i] = $path[$i]['Photo']['path'];
@@ -30,7 +30,7 @@ class PhotosController extends AppController{
         if(move_uploaded_file($_FILES['image']['tmp_name'], $UploadPath_c)){
 
             /*画像を保存しているディレクトリのパスをデータベースへ保存 */
-            if($this->Photo->save(array('path' => $UploadPath))){
+            if($this->Photo->save(array('path' => $UploadPath, 'del_flg' => '0'))){
 
                 try {
                     if($image = new Imagick($UploadPath_c)){
