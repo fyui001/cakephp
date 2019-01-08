@@ -20,11 +20,7 @@ class PhotosController extends AppController{
 
   public function add(){
 
-<<<<<<< HEAD
-    //if($this->request->is('post')){
-    debug($_FILES);
-=======
->>>>>>> ff7457adbd3ed724cc6dfd6c1309efa8a5075abb
+    if($this->request->is('post')){
 
     $FileName = $_FILES['image']['name']; /* ファイル名を変数へ代入 */
     $UploadPath = "/var/www/html/cakephp/app/webroot/Photo/{$FileName}"; /* バリデーション後保存するディレクトリのパス */
