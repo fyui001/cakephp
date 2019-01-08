@@ -5,7 +5,7 @@ class ShellmailsController extends AppController{
   public function index($mail){
     $this->loadModel('MailSent');
     $this->loadModel('User');
-    $this->loadModel('Token');
+    $this->loadModel('Mailtoken');
 
 
     $address = $mail['MailSent']['email'];
@@ -23,7 +23,7 @@ class ShellmailsController extends AppController{
       /* トークン取得 */
       if($this->MailSent->save($mail)){
         $id = $this->MailSent->getInsertID();
-        $db_token = $this->Token->find('first', array('conditions' => array('id' => $id)));
+        $db_token = $this->Mailtoken->find('first', array('conditions' => array('id' => $id)));
         $token2 = $this->genRandStr(20);
       }else{
         throw new Excption();
@@ -44,7 +44,7 @@ class ShellmailsController extends AppController{
 
 
 
-      if($this->MailSent->save($data) && $this->Token->save(array('id' => $token_id, 'del_flg' => '1'))){
+      if($this->MailSent->save($data) && $this->Mailtoken->save(array('id' => $token_id, 'del_flg' => '1'))){
         if(!empty($search)){
           if(!$this->MailSent->save(array('id' => $del_id, 'del_flg' => '1'))){
             throw new Excption();
