@@ -1,5 +1,3 @@
-<?php
-?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -28,7 +26,7 @@
 						<a id = "item2" href="/scans">画像文字起こし</a>
 					</li>
                     <li>
-                        <a id = "item3" href="">うどん</a>
+                      <!--  <a id = "item3" href="">うどん</a> -->
                     </li>
 				</ul>
 			</div>

@@ -1,7 +1,7 @@
 <?php
 App::uses('AppModel', 'Model');
 
-class Token extends AppModel{
+class Usertoken extends AppModel{
 
 
 }
