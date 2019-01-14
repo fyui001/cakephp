@@ -29,6 +29,11 @@ App::uses('AppController', 'Controller');
  * @link https://book.cakephp.org/2.0/en/controllers/pages-controller.html
  */
 class PagesController extends AppController {
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('display');
+        $this->response->disableCache();
+    }
 
 /**
  * This controller does not use a model
