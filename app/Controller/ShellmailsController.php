@@ -51,11 +51,8 @@ class ShellmailsController extends AppController{
           }
         }
         $dataSource->commit();
-<<<<<<< HEAD
-        $Mail = "http://app.mogamin.net/users/signup?token={$token}{$token2}";
-=======
+
         $Mail = SiteURL."/users/signup?token={$token}{$token2}";
->>>>>>> 63a930d7e080ffc94d84815639f87735eb91a1d9
         $sent = $mail['MailSent']['email'];
         $email = new CakeEmail('singup');
         $email->from('13yun.test@gmail.com');
