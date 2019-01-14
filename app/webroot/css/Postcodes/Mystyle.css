@@ -2,6 +2,8 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 html, body{
   height: 100%;
   font-family: "Noto Sans JP", "游ゴシック Medium", "游ゴシック体", "Yu Gothic Medium", YuGothic, "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+  background: linear-gradient(150deg, #6B68A9, #7FBFEE, #60A9A7);
+
 }
 .title{
   font-size:50px;
@@ -14,7 +16,8 @@ html, body{
   height: auto;
   padding:40px;
   margin:40px auto;
-  background-color:#f2f2f2f2;
+  background-color: rgba(00,00,00, 0.33);
+  
 }
 #form-item{
   color:#000;
@@ -22,6 +25,7 @@ html, body{
   padding-top:20px;
   padding-left:300px;
   text-align: left;
+
 }
 #PostNum{
   height:23px;
