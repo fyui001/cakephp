@@ -1,6 +1,12 @@
 <?php
 App::uses('AppController', 'Controller');
 class PostcodesController extends AppController{
+  public function beforeFilter() {
+      parent::beforeFilter();
+      $this->Auth->allow('index', 'add');
+      $this->response->disableCache();
+  }
+
   public function index(){
 
   }
@@ -9,7 +15,7 @@ class PostcodesController extends AppController{
     $status = true; /* バリデーションのStatus、tureを初期セット */
     $message = ''; /* エラーメッセージを入れる変数 */
     $PostNum = str_replace(array('-', 'ー'), '', $PostNum); /* ハイフンが入っていればそれを除く */
-    ///$this->autoRender = false;
+    $this->autoRender = false;
     try {
 
       /* データの空チェックとバリデーション */

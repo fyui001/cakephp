@@ -51,10 +51,10 @@ class ShellmailsController extends AppController{
           }
         }
         $dataSource->commit();
-        $Mail = "http://site.site/users/signup?token={$token}{$token2}";
+        $Mail = "http://app.mogamin.net/users/signup?token={$token}{$token2}";
         $sent = $mail['MailSent']['email'];
         $email = new CakeEmail('singup');
-        $email->from(MailAddress);
+        $email->from('13yun.test@gmail.com');
         $email->to($sent);
         $email->subject('メールアドレスの確認');
         $email->emailFormat('text');
