@@ -6,7 +6,7 @@ html, body{
 
 }
 .title{
-  font-size:50px;
+  font-size:45px;
   color:#ff3088;
   text-align:center;
   padding-top:30px;
@@ -17,19 +17,16 @@ html, body{
   padding:40px;
   margin:40px auto;
   background-color: rgba(00,00,00, 0.33);
-  
+  text-align:center;
+
 }
 #form-item{
   color:#000;
-  padding:none;
-  padding-top:20px;
-  padding-left:300px;
-  text-align: left;
-
+  margin:auto;
 }
-#PostNum{
+.PostNum{
   height:23px;
-  width: 200px;
+  width: auto;
   font-size: 20px;
 }
 #form-item p{
@@ -37,21 +34,20 @@ html, body{
   padding:10px 0;
   padding-bottom:18px;
 }
-#form-item #sub{
+#form-item .sub{
   color:#ff0000;
   font-size:20px;
 }
 #form-PostNum{
   padding:15px 0;
 }
-
 #form-address{
   padding:15px 0;
 }
-#address{
-  width:350px;
-  font-size:18px;
+.address{
+  width:auto;
+  font-size:15px;
   }
-#but1{
+.but1{
   font-size: 15px;
 }
